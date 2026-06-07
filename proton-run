@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Check if an argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: proton-run <path_to_exe>"
+    exit 1
+fi
+
+EXE_PATH=$(realpath "$1")
+EXE_DIR=$(dirname "$EXE_PATH")
+
+# Proton Directories
+PROTON_DIR="$HOME/.local/share/proton-launcher"
+PROTON_BIN="$PROTON_DIR/proton-version/proton"
+STEAM_COMPAT_DATA_PATH="$PROTON_DIR/prefixes/default"
+
+export STEAM_COMPAT_DATA_PATH
+export STEAM_COMPAT_CLIENT_INSTALL_PATH="$HOME/.steam/steam"
+
+# Switch to the EXE directory (important for some apps/games)
+cd "$EXE_DIR" || exit
+
+# Run via Proton
+"$PROTON_BIN" run "$EXE_PATH"
